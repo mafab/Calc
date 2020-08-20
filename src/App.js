@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import './App.css'
+import KeyPad from './Components/KeyPad'
+import Result from './Components/Result'
 
 function App() {
+  const [result, setResult] = useState('')
+  const [on, setOn] = useState(false)
+  const buttonPressed = (pressedValue) => {
+    if (pressedValue === '=') {
+      setResult(eval(result))
+    } else if (pressedValue === 'C') {
+      setResult('')
+    } else if (pressedValue === 'ON/OFF') {
+      if (on === true) {
+        setResult('0')
+        setOn(!on)
+      } else {
+        setResult('')
+        setOn(!on)
+      }
+    } else setResult(result + pressedValue)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Result result={result} />
+      <KeyPad buttonPressed={buttonPressed} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
